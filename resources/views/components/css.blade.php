@@ -6,10 +6,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Add jQuery and DataTables CSS and JS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+<!-- This is fpm -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
 
 <style>
     body {
-        font-family: 'Roboto', sans-serif;
+        font-family: Lato, Arial, sans-serif;
         margin: 0;
         height: 100vh;
         display: grid;
@@ -55,7 +57,7 @@
                 border-radius: 5px;
                 color: #1f2328;
                 font-size: 0.9rem;
-                font-weight: 500;
+                font-weight: 600;
                 letter-spacing: 2px;
                 text-decoration: none;
                 line-height: 36px;
@@ -80,7 +82,7 @@
             background-color: #ffffff;
             border: 1px solid rgb(215, 215, 215);
             height: 100%;
-            padding: 2rem 2rem 0rem 2rem;
+            padding: 2rem 2rem 2rem 2rem;
 
             .content-header {
                 display: flex;
@@ -89,11 +91,19 @@
                 height: 10%;
                 
                 h3 {
+                    font-family: Lato, Arial, sans-serif;
                     color: #1f2328;
-                    font-size: 24px;
+                    font-size: 1.5rem;
                     font-weight: 600;
-                    letter-spacing: 1px;
+                    letter-spacing: 2px;
                     margin: 0;
+                }
+
+                button {
+                    font-family: Lato, Arial, sans-serif;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    letter-spacing: 2px;
                 }
             }
 
@@ -101,13 +111,55 @@
                 height: 100%;
 
                 table {
-                    font-family: 'Roboto', sans-serif;
+                    font-family: Lato, Arial, sans-serif;
 
                     th {
                         color: #1f2328;
                         font-size: 0.9rem;
                         font-weight: 600;
                         letter-spacing: 2px;
+                    }
+
+                    td {
+                        color: #1f2328;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        letter-spacing: 2px;
+                    }
+                }
+
+                .dt-layout-row {
+                    font-family: Lato, Arial, sans-serif;
+                    letter-spacing: 2px;
+
+                    .dt-input {
+                        font-family: Lato, Arial, sans-serif;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        letter-spacing: 2px;
+                        padding: 8px 12px;
+                    }
+
+                    label{
+                        margin-right: 0.5rem;
+                        font-weight: 600;
+                        font-size: 0.9rem;
+                    }
+
+                    input {
+                        margin-bottom: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                    }
+
+                    .dt-info {
+                        font-weight: 600;
+                        font-size: 0.9rem;
+                    }
+
+                    .dt-paging {
+                        font-weight: 600;
+                        font-size: 0.9rem;
                     }
                 }
             }
@@ -125,9 +177,10 @@
             padding: 16px;
 
             p { 
+                font-family: Lato, Arial, sans-serif;
                 color: #1f2328;
                 font-size: 0.9rem;
-                font-weight: 500;
+                font-weight: 600;
                 letter-spacing: 2px;
                 margin: 0;
             }
@@ -135,21 +188,14 @@
     }
 
     .modal {
-        font-family: "Roboto", sans-serif;
-        letter-spacing: 1px;
+        font-family: Lato, Arial, sans-serif;
+        letter-spacing: 2px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
 
         .modal-content {
             border-radius: 3px;
-        }
-
-        input,
-        textarea, 
-        select{
-            letter-spacing: 1px;
-            border-radius: 1px;
         }
 
         .modal-header {
@@ -180,14 +226,30 @@
             .modal-body::-webkit-scrollbar-track {
                 background-color: #f1f1f1;
             }
+
+            label {
+                font-family: Lato, Arial, sans-serif;
+                font-size: 0.9rem;
+                font-weight: 500;
+                letter-spacing: 2px;
+            }
+
+            input {
+                border: 1px solid rgb(215, 215, 215);
+                border-radius: 1px;
+                font-family: Lato, Arial, sans-serif;
+                font-size: 0.9rem;
+                font-weight: 400;
+                letter-spacing: 2px;
+            }
         }
 
         .modal-footer {
             padding: 5px 20px 15px 20px;
 
             button {
-                font-family: "Poppins", sans-serif;
-                font-weight: 300;
+                font-family: Lato, Arial, sans-serif;
+                font-weight: 400;
                 letter-spacing: 2px;
                 border-radius: 3px;
             }
