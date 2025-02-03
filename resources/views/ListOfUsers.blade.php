@@ -52,7 +52,7 @@
                             <input type="text" class="form-control" id="addLastName">
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="addUserName">Email:</label>
+                            <label for="addUserName">Username:</label>
                             <input type="text" class="form-control" id="addUserName">
                         </div>
                     </div>
@@ -60,6 +60,38 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success" id="btnSubmitCreateUser" onclick="CreateNewUser()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show user modal -->
+    <div class="modal fade" id="showUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 500px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="titleUserModal">Edit User</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="showFirstName">First Name:</label>
+                            <input type="text" class="form-control" id="showFirstName">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="showLastName">Last Name:   </label>
+                            <input type="text" class="form-control" id="showLastName">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="showUserName">Username:</label>
+                            <input type="text" class="form-control" id="showUserName">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnSubmitEditUser">Submit</button>
                 </div>
             </div>
         </div>
@@ -140,6 +172,33 @@
         });
     }
 
+    function ShowUserModal(UserID, Mode) {
+        const modalTitle = document.getElementById('titleUserModal');
+        const firstName = document.getElementById('showFirstName');
+        const lastName = document.getElementById('showLastName');
+        const userName = document.getElementById('showUserName');
+        const btnSubmit = document.getElementById('btnSubmitEditUser');
+        const modal = new bootstrap.Modal(document.getElementById('showUserModal'));
+        GetUserRecord(UserID);
+
+        if (Mode == 'Show') {
+            btnSubmit.style.display = 'none'; 
+            modalTitle.innerText = 'User';
+            firstName.disabled = true;
+            lastName.disabled = true;
+            userName.disabled = true;
+            modal.show();
+        } else {
+            btnSubmit.style.display = ''; 
+            modalTitle.innerText = 'Edit User';
+            firstName.disabled = false;
+            lastName.disabled = false;
+            userName.disabled = false;
+            modal.show();
+            btnSubmit.setAttribute('onclick', `EditUserRecord(${UserID})`);
+        }
+    }
+
     function ShowRemoveUserModal(UserID) {
         const removeUserButton = document.getElementById('btnRemoveUser' + UserID);
         const confirmRemoveButton = document.getElementById('btnConfirmRemoveUser');
@@ -147,17 +206,17 @@
 
         modal.show();
 
-        confirmRemoveButton.setAttribute('onclick', `RemoveUser(${UserID})`);
+        confirmRemoveButton.setAttribute('onclick', `RemoveUserRecord(${UserID})`);
     }
 
     function CreateNewUser() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const firstName = document.getElementById('addFirstName').value;
         const lastName = document.getElementById('addLastName').value;
         const userName = document.getElementById('addUserName').value;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
         $.ajax({
-            url: `/info`,
+            url: `/CreateUserRecord`,
             method: 'POST',
             data: {
                 first_name: firstName,
@@ -169,6 +228,7 @@
             },
             success: function(response) {
                 console.log('User created successfully', response);
+                window.location.reload();
             },
             error: function(error) {
                 console.log('Error creating user', error);
@@ -176,20 +236,71 @@
         });
     }
 
-    function RemoveUser(UserID) {
+    function GetUserRecord(UserID) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const firstName = document.getElementById('showFirstName');
+        const lastName = document.getElementById('showLastName');
+        const userName = document.getElementById('showUserName');
+
+        $.ajax({
+            url: `/GetUserRecord/${UserID}`,
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                firstName.value = response.first_name;
+                lastName.value = response.last_name;
+                userName.value = response.user_name;
+            },
+            error: function(error) {
+                console.error('Failed to get the user record!', error);
+            }
+        });
+    }
+
+    function EditUserRecord(UserID) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const firstName = document.getElementById('showFirstName').value;
+        const lastName = document.getElementById('showLastName').value;
+        const userName = document.getElementById('showUserName').value;
+
+        $.ajax({
+            url: `/EditUserRecord/${UserID}`,
+            method: 'POST',
+            data: {
+                first_name: firstName,
+                last_name: lastName,
+                user_name: userName
+            },
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                console.log('Successfully edited!', response);
+                window.location.reload();
+            },
+            error: function(error) {
+                console.error('Failed to edit!', error);
+            }
+        });
+    }
+
+    function RemoveUserRecord(UserID) {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         $.ajax({
-            url: `/user/${UserID}`,
+            url: `/RemoveUserRecord/${UserID}`,
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': csrfToken
             },
             success: function(response) {
-                console.log('User status updated successfully', response);
+                console.log('Successfully removed!', response);
+                window.location.reload();
             },
             error: function(error) {
-                console.error('Error updating user status', error);
+                console.error('Failed to remove!', error);
             }
         });
     }
