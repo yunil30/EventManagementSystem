@@ -55,6 +55,26 @@
                             <label for="addUserName">Username:</label>
                             <input type="text" class="form-control" id="addUserName">
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="addUserEmail">Email:</label>
+                            <input type="email" class="form-control" id="addUserEmail">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="addContactNo">Contact#:</label>
+                            <input type="text" class="form-control" id="addContactNo">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="addUserPassword">Password:</label>
+                            <input type="password" class="form-control" id="addUserPassword">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="addUserRole">User role:</label>
+                            <select class="form-control" id="addUserRole">
+                                <option value="">Select an Option</option>
+                                <option value="user" selected>User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -86,6 +106,22 @@
                         <div class="col-md-12 mb-3">
                             <label for="showUserName">Username:</label>
                             <input type="text" class="form-control" id="showUserName">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="showUserEmail">Email:</label>
+                            <input type="email" class="form-control" id="showUserEmail">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="showContactNo">Contact#:</label>
+                            <input type="text" class="form-control" id="showContactNo">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="showUserRole">User role:</label>
+                            <select class="form-control" id="showUserRole">
+                                <option value="">Select an Option</option>
+                                <option value="user" selected>User</option>
+                                <option value="admin">Admin</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -177,6 +213,10 @@
         const firstName = document.getElementById('showFirstName');
         const lastName = document.getElementById('showLastName');
         const userName = document.getElementById('showUserName');
+        const userEmail = document.getElementById('showUserEmail');
+        const contactNo = document.getElementById('showContactNo');
+        const userRole = document.getElementById('showUserRole');
+
         const btnSubmit = document.getElementById('btnSubmitEditUser');
         const modal = new bootstrap.Modal(document.getElementById('showUserModal'));
         GetUserRecord(UserID);
@@ -187,6 +227,9 @@
             firstName.disabled = true;
             lastName.disabled = true;
             userName.disabled = true;
+            userEmail.disabled = true;
+            contactNo.disabled = true;
+            userRole.disabled = true;
             modal.show();
         } else {
             btnSubmit.style.display = ''; 
@@ -194,6 +237,9 @@
             firstName.disabled = false;
             lastName.disabled = false;
             userName.disabled = false;
+            userEmail.disabled = false;
+            contactNo.disabled = false;
+            userRole.disabled = false;
             modal.show();
             btnSubmit.setAttribute('onclick', `EditUserRecord(${UserID})`);
         }
@@ -214,17 +260,23 @@
         const firstName = document.getElementById('addFirstName').value;
         const lastName = document.getElementById('addLastName').value;
         const userName = document.getElementById('addUserName').value;
+        const userEmail = document.getElementById('addUserEmail').value;
+        const contactNo = document.getElementById('addContactNo').value;
+        const userPassword = document.getElementById('addUserPassword').value;
+        const userRole = document.getElementById('addUserRole').value;
         
         $.ajax({
             url: `/CreateUserRecord`,
             method: 'POST',
             data: {
+                _token: csrfToken,
                 first_name: firstName,
                 last_name: lastName,
-                user_name: userName
-            },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+                user_name: userName,
+                user_email: userEmail,
+                contact_number: contactNo,
+                password: userPassword,
+                user_role: userRole
             },
             success: function(response) {
                 console.log('User created successfully', response);

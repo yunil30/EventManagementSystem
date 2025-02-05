@@ -5,22 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserModel extends Model {
+class UserModel extends Model 
+{
     use HasFactory;
 
-    // Disable automatic timestamp handling
     public $timestamps = false;
 
-    // Define the table name (if it's different from the plural form of the model name)
-    protected $table = 'tbl_user_info'; // The table in your database
+    protected $table = 'tbl_user_access';
 
     protected $primaryKey = 'UserID'; 
 
-    // Define which fields are fillable (to protect against mass-assignment vulnerabilities)
     protected $fillable = [
-        'first_name',
+        'first_name', 
         'last_name',
-        'user_name',
-        'user_status',
+        'user_name', 
+        'user_email', 
+        'contact_number',
+        'password', 
+        'user_role', 
+        'user_status', 
+        'modified_by', 
+        'date_modified'
     ];
 }
