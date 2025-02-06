@@ -293,6 +293,9 @@
         const firstName = document.getElementById('showFirstName');
         const lastName = document.getElementById('showLastName');
         const userName = document.getElementById('showUserName');
+        const userEmail = document.getElementById('showUserEmail');
+        const contactNo = document.getElementById('showContactNo');
+        const userRole = document.getElementById('showUserRole');
 
         $.ajax({
             url: `/GetUserRecord/${UserID}`,
@@ -304,6 +307,9 @@
                 firstName.value = response.first_name;
                 lastName.value = response.last_name;
                 userName.value = response.user_name;
+                userEmail.value = response.user_email;
+                contactNo.value = response.contact_number;
+                userRole.value = response.user_role;
             },
             error: function(error) {
                 console.error('Failed to get the user record!', error);
@@ -316,17 +322,21 @@
         const firstName = document.getElementById('showFirstName').value;
         const lastName = document.getElementById('showLastName').value;
         const userName = document.getElementById('showUserName').value;
+        const userEmail = document.getElementById('showUserEmail').value;
+        const contactNo = document.getElementById('showContactNo').value;
+        const userRole = document.getElementById('showUserRole').value;
 
         $.ajax({
             url: `/EditUserRecord/${UserID}`,
             method: 'POST',
             data: {
+                _token: csrfToken,
                 first_name: firstName,
                 last_name: lastName,
-                user_name: userName
-            },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+                user_name: userName,
+                user_email: userEmail,
+                contact_number: contactNo,
+                user_role: userRole
             },
             success: function(response) {
                 console.log('Successfully edited!', response);
