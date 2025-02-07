@@ -3,51 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\UserModel;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller 
 {
-    public function ShowLoginUser()
+    public function showLoginForm()
     {
         return view('authentication.LoginUser');
     }
-
-    public function LoginUser(Request $request) {
-        // Validate incoming request data
+    
+    public function login(Request $request)
+    {
         $request->validate([
-            'user_email' => 'required|email|max:50',
-            'password' => 'required|string|min:8',
+            'user_name' => 'required',
+            'password' => 'required',
         ]);
-        
-        // Attempt to find user by email
-        $user = UserModel::where('user_email', $request->user_email)->first();
-    
-        if ($user && Hash::check($request->password, $user->password)) {
-            // If user exists and passwords match, log them in
-            // You can store the user in session or use Laravel's Auth system
-    
-            // For simplicity, let's start a session
-            session(['user' => $user]);
-    
-            return redirect()->route('ShowListOfUsers');
-        }
-    
-        // If the credentials are invalid, show an error message
-        return redirect()->back()->with('error', 'Invalid email or password');
-    }
 
-    public function LogoutUser()
-    {
-        session()->forget('user');
-        return view('authentication.LoginUser');
+        $user = UserModel::where('user_name', $request->user_name)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            session(['user' => $user]); 
+
+            return redirect()->route('ShowListOfUsers'); 
+        }
+
+        return back()->withErrors(['login' => 'Invalid credentials.']);
     }
 
     public function ShowListOfUsers()
     {
         return view('ListOfUsers');
+    }
+
+    public function logout()
+    {
+        Session::flush(); 
+        return redirect()->route('login');
     }
 
     public function GetAllUsers() 
