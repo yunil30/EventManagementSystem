@@ -8,15 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller 
-{
-    public function showLoginForm()
-    {
+class UserController extends Controller {
+    public function showLoginForm() {
         return view('authentication.LoginUser');
     }
     
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $request->validate([
             'user_name' => 'required',
             'password' => 'required',
@@ -25,7 +22,11 @@ class UserController extends Controller
         $user = UserModel::where('user_name', $request->user_name)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            session(['user' => $user]); 
+            session([
+                'user_id' => $user->UserID,
+                'user_name' => $user->user_name,
+                'user_role' => $user->user_role,
+            ]);
 
             return redirect()->route('ShowListOfUsers'); 
         }
@@ -33,14 +34,17 @@ class UserController extends Controller
         return back()->withErrors(['login' => 'Invalid credentials.']);
     }
 
-    public function ShowListOfUsers()
-    {
+    public function ShowListOfUsers() {
+        if (!session('user_id')) {
+            return redirect()->route('login');
+        }
+
         return view('ListOfUsers');
     }
 
-    public function logout()
-    {
+    public function logout() {
         Session::flush(); 
+
         return redirect()->route('login');
     }
 

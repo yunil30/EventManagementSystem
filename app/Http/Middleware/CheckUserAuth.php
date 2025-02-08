@@ -13,20 +13,9 @@ class CheckUserAuth
         $user = session('user');
 
         if (!$user) {
-            // return redirect()->route('ShowListOfUsers');
+            // return redirect()->route('login');
         } 
 
         return $next($request);
     }
-
-    // public function handle(Request $request, Closure $next) 
-    // {
-    //     $meUser = 1; 
-
-    //     if ($meUser === 0) {
-    //         return response()->json(['message' => 'Access denied: You are inactive.'], 403);
-    //     }
-
-    //     return $next($request);
-    // }
 }
