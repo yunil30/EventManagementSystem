@@ -28,6 +28,8 @@ class UserController extends Controller {
                 'user_role' => $user->user_role,
             ]);
 
+            $request->session()->regenerate();
+
             return redirect()->route('ShowListOfUsers'); 
         }
 
