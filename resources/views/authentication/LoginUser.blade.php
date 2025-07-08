@@ -69,6 +69,7 @@
                 width: 100%;
                 padding: 10px 40px;
                 margin: 0px;
+                margin-top: 16px;
 
                 &:hover {
                     background-color: #343a40;
@@ -190,20 +191,28 @@
                 </button>
             </div>
 
+            @error('ErrorMessage')
+                <div class="alert alert-danger error-message">{{ $message }}</div>
+            @enderror
+
+            @if ($errors->any())
+                <div>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
                 <button type="submit" class="btnLogin" id="btnLogin">Login</button>
             </div>
-        </div>
 
-        @if ($errors->any())
-            <div>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="form-group" style="text-align: center;" >
+                <label for="">Don't have an account? <a href="{{ url('/register') }}">Register now</a></label>
             </div>
-        @endif
+        </div>
     </form>
 </body>
 </html>
