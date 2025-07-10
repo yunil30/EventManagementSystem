@@ -7,6 +7,6 @@
 
 <footer class="footer">
     <div class="copyrights">
-        <p>&copy; <?= date('Y') ?> Registration Form</p>
+        <p>&copy; <?= date('Y') ?> Event Manager</p>
     </div>
 </footer>
