@@ -15,11 +15,12 @@
         margin: 0;
         height: 100vh;
         display: grid;
+        grid-template-columns: 14rem 1fr;
         grid-template-rows: 3.5rem 1fr auto;
         grid-template-areas: 
-            "header"
-            "main"
-            "footer";
+            "header header"
+            "sidebar main"
+            "footer footer";
         transition: all 1s ease;
         padding-right: 0 !important;
     }
@@ -71,6 +72,13 @@
         .menu-item a:focus {
             color: #173a68;
         }
+    }
+
+    aside {
+        grid-area: sidebar;
+        background-color: #ffffff;
+        border-right: 1px solid rgb(97, 97, 97);
+        padding: 2rem 0rem;
     }
 
     main {

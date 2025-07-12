@@ -1,162 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('components.css')
-</head>
-<body>
-    @include('components.header')
-
-    <main>
-        <div class="col-md-12 main-content">
-            <div class="col-md-12 content-header">
-                <h3>List of Users</h3>
-                <button type="button" class="btn btn-primary btnHeader" id="btnAddUser">Add User</button>
-            </div>
-            <div class="col-md-12 content-body">
-                <table class="table table-hover table-bordered" id="userListTable">
-                    <thead>
-                        <tr>
-                            <th class="text-left" style="width: 15%; text-align: left;">UserNo.</th>
-                            <th class="text-left" style="width: 20%;">Username</th>
-                            <th class="text-left" style="width: 30%;">Fullname</th>
-                            <th class="text-left" style="width: 20%;">Status</th>
-                            <th class="text-center" style="width: 15%;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loadUsers"></tbody>
-                </table>               
-            </div>
+<x-index>
+    <div class="col-md-12 main-content">
+        <div class="col-md-12 content-header">
+            <h3>List of Users</h3>
+            <button type="button" class="btn btn-primary btnHeader" id="btnAddUser">Add User</button>
         </div>
-    </main>
+        <div class="col-md-12 content-body">
+            <table class="table table-hover table-bordered" id="userListTable">
+                <thead>
+                    <tr>
+                        <th class="text-left" style="width: 15%; text-align: left;">UserNo.</th>
+                        <th class="text-left" style="width: 20%;">Username</th>
+                        <th class="text-left" style="width: 30%;">Fullname</th>
+                        <th class="text-left" style="width: 20%;">Status</th>
+                        <th class="text-center" style="width: 15%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="loadUsers"></tbody>
+            </table>               
+        </div>
+    </div>
+</x-index>
 
-    <!-- Create user modal -->
-    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="max-width: 500px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add User</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="addFirstName">First Name:</label>
-                            <input type="text" class="form-control" id="addFirstName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addLastName">Last Name:   </label>
-                            <input type="text" class="form-control" id="addLastName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addUserName">Username:</label>
-                            <input type="text" class="form-control" id="addUserName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addUserEmail">Email:</label>
-                            <input type="email" class="form-control" id="addUserEmail">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addContactNo">Contact#:</label>
-                            <input type="text" class="form-control" id="addContactNo">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addUserPassword">Password:</label>
-                            <input type="password" class="form-control" id="addUserPassword">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="addUserRole">User role:</label>
-                            <select class="form-control" id="addUserRole">
-                                <option value="">Select an Option</option>
-                                <option value="user" selected>User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+<!-- Create user modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add User</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="addFirstName">First Name:</label>
+                        <input type="text" class="form-control" id="addFirstName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addLastName">Last Name:   </label>
+                        <input type="text" class="form-control" id="addLastName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addUserName">Username:</label>
+                        <input type="text" class="form-control" id="addUserName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addUserEmail">Email:</label>
+                        <input type="email" class="form-control" id="addUserEmail">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addContactNo">Contact#:</label>
+                        <input type="text" class="form-control" id="addContactNo">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addUserPassword">Password:</label>
+                        <input type="password" class="form-control" id="addUserPassword">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="addUserRole">User role:</label>
+                        <select class="form-control" id="addUserRole">
+                            <option value="">Select an Option</option>
+                            <option value="user" selected>User</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="btnSubmitCreateUser" onclick="CreateNewUser()">Submit</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnSubmitCreateUser" onclick="CreateNewUser()">Submit</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Show user modal -->
-    <div class="modal fade" id="showUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="max-width: 500px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="titleUserModal">Edit User</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="showFirstName">First Name:</label>
-                            <input type="text" class="form-control" id="showFirstName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="showLastName">Last Name:   </label>
-                            <input type="text" class="form-control" id="showLastName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="showUserName">Username:</label>
-                            <input type="text" class="form-control" id="showUserName">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="showUserEmail">Email:</label>
-                            <input type="email" class="form-control" id="showUserEmail">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="showContactNo">Contact#:</label>
-                            <input type="text" class="form-control" id="showContactNo">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="showUserRole">User role:</label>
-                            <select class="form-control" id="showUserRole">
-                                <option value="">Select an Option</option>
-                                <option value="user" selected>User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+<!-- Show user modal -->
+<div class="modal fade" id="showUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleUserModal">Edit User</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="showFirstName">First Name:</label>
+                        <input type="text" class="form-control" id="showFirstName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showLastName">Last Name:   </label>
+                        <input type="text" class="form-control" id="showLastName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showUserName">Username:</label>
+                        <input type="text" class="form-control" id="showUserName">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showUserEmail">Email:</label>
+                        <input type="email" class="form-control" id="showUserEmail">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showContactNo">Contact#:</label>
+                        <input type="text" class="form-control" id="showContactNo">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="showUserRole">User role:</label>
+                        <select class="form-control" id="showUserRole">
+                            <option value="">Select an Option</option>
+                            <option value="user" selected>User</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="btnSubmitEditUser">Submit</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnSubmitEditUser">Submit</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Remove user modal -->
-    <div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="max-width: 400px; width: 100%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Action Verification</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Remove user modal -->
+<div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 400px; width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Action Verification</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="col-md-12 modal-body">
+                <div class="col-md-12 mb-3 p-0">
+                    <label>Are you sure you want to remove this user?</label>
                 </div>
-                <div class="col-md-12 modal-body">
-                    <div class="col-md-12 mb-3 p-0">
-                        <label>Are you sure you want to remove this user?</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="btnConfirmRemoveUser">Confirm</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnConfirmRemoveUser">Confirm</button>
             </div>
         </div>
     </div>
+</div>
 
-    @include('components.footer')
-</body>
-</html>
 <script>
     document.getElementById('btnAddUser').addEventListener('click', function() {
         var myModal = new bootstrap.Modal(document.getElementById('createUserModal'));

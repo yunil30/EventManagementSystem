@@ -8,6 +8,7 @@
 </head>
 <body>
     @include('components.header')
+    @include('components.sidebar')
 
     <content>
     </content>
