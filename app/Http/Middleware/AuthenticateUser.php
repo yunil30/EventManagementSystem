@@ -7,13 +7,11 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckAccessLevel 
+class AuthenticateUser
 {
-    public function handle(Request $request, Closure $next, $requiredLevel): Response {
-        $user = Auth::user();
-
-        if (!$user) {
-            abort(403);
+    public function handle(Request $request, Closure $next): Response {
+        if (!Auth::check()) {
+            return redirect('login');
         }
 
         return $next($request);

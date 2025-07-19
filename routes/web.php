@@ -2,19 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\CheckUserAuth;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::middleware(['guest'])->group(function () {
+    Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [UserController::class, 'login'])->name('login.submit');
+    Route::get('logout', [UserController::class, 'logout'])->name('logout');
+});
 
-Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
-Route::post('login', [UserController::class, 'login'])->name('login.submit');
-Route::get('logout', [UserController::class, 'logout'])->name('logout');
-
-
-Route::middleware(CheckUserAuth::class)->group(function () {
-    Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers'])->middleware(CheckUserAuth::class)->name('ShowListOfUsers');
+Route::middleware(['auth.user'])->group(function () {
+    Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers'])->name('ShowListOfUsers');
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);
 
