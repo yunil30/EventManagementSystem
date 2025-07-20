@@ -10,6 +10,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth.user'])->group(function () {
+    Route::get('/', function () {return view('welcome');});
     Route::get('/ShowListOfUsers', [UserController::class, 'ShowListOfUsers'])->name('ShowListOfUsers');
     Route::get('/GetActiveUsers', [UserController::class, 'GetActiveUsers']);
     Route::get('/GetUserRecord/{UserID}', [UserController::class, 'GetUserRecord']);

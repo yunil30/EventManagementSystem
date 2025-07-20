@@ -22,6 +22,8 @@ class UserController extends Controller {
         $user = UserModel::where('user_name', $request->user_name)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+
             session([
                 'user_id' => $user->UserID,
                 'user_name' => $user->user_name,
@@ -45,6 +47,8 @@ class UserController extends Controller {
     }
 
     public function logout() {
+        Auth::logout();
+
         Session::flush(); 
 
         return redirect()->route('login');
